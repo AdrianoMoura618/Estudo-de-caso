@@ -26,3 +26,8 @@ CREATE TABLE FUNCIONARIO (
 
 INSERT INTO ADMINISTRADOR (nome_usuario, senha_usuario, data_cadastro_usuario)
 VALUES ('Adriano', 'senha123', NOW());
+
+INSERT INTO PRODUTOS (marca_produto, nome_produto, cod_produto, qtd_estoque) VALUES
+('Nike', 'Tenis Run', 1001, 50),
+('Adidas', 'Camiseta Sport', 1002, 30),
+('Puma', 'Shorts Pro', 1003, 25);

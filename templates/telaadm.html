@@ -2,43 +2,67 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>administrador</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel do Administrador</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
 </head>
 <body>
-    <h2>Bem-vindo, {{ user_name }} (Administrador)</h2>
-    
-    <h3>Lista de Produtos</h3>
-    <table border="1">
-        <tr>
-            <th>ID</th>
-            <th>Nome</th>
-            <th>Descrição</th>
-            <th>Preço</th>
-            <th>Quantidade em Estoque</th>
-            <th>Ações</th>
-        </tr>
-        {% for produto in produtos %}
-        <tr>
-            <td>{{ produto.id }}</td>
-            <td>{{ produto.nome }}</td>
-            <td>{{ produto.descricao }}</td>
-            <td>{{ produto.preco }}</td>
-            <td>{{ produto.quantidade_estoque }}</td>
-            <td>
-                <a href="{{ url_for('editar_produto', id=produto.id) }}">Editar</a>
-                <a href="{{ url_for('deletar_produto', id=produto.id) }}">Deletar</a>
-            </td>
-        </tr>
-        {% endfor %}
+    <h2>Painel Administrativo</h2>
+    <h3>Bem-vindo, {{ user_name }}</h3>
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <div class="flash-message">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <h3>Funcionários Cadastrados</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Data de Cadastro</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for funcionario in funcionarios %}
+            <tr>
+                <td>{{ funcionario.id_usuario }}</td>
+                <td>{{ funcionario.nome_usuario }}</td>
+                <td>{{ funcionario.data_cadastro_usuario.strftime('%d/%m/%Y %H:%M') if funcionario.data_cadastro_usuario else '' }}</td>
+                <td>
+                    <a href="{{ url_for('deletar_funcionario', id=funcionario.id_usuario) }}" 
+                       onclick="return confirm('Tem certeza que deseja deletar este funcionário?')">
+                        Deletar
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
     </table>
 
-    <br>
-    <a href="{{ url_for('adicionar_produto') }}">Adicionar Produto</a>
-    <br>
-    <a href="{{ url_for('cadastro_usuario') }}">Cadastrar Usuário</a>
-    <br>
-    <a href="{{ url_for('logout') }}">Sair</a>
+    <form method="POST" action="{{ url_for('cadastrar_funcionario') }}">
+        <h3>Cadastrar Novo Funcionário</h3>
+        
+        <label for="nome">Nome do Funcionário:</label>
+        <input type="text" id="nome" name="nome" required>
+
+        <label for="senha">Senha:</label>
+        <input type="password" id="senha" name="senha" required>
+
+        <label for="confirmar_senha">Confirmar Senha:</label>
+        <input type="password" id="confirmar_senha" name="confirmar_senha" required>
+
+        <button type="submit">Cadastrar Funcionário</button>
+    </form>
+
+    <form style="text-align: center;">
+        <a href="{{ url_for('logout') }}">Sair do Sistema</a>
+    </form>
+
 </body>
 </html>
-
-
