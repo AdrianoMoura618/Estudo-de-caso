@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>telaadm</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/home.css') }}">  
+</head>
+<body>
+    
+    
+    <h2>Login</h2>
+    <form method="POST" action="/">
+        <label>Nome de Usuário:</label>
+        <input type="text" name="nome" required>
+        
+        <label>Senha:</label>
+        <input type="password" name="senha" required>
+        
+        <label>Tipo de Usuário:</label>
+        <select name="tipo_usuario">
+            <option value="administrador">Administrador</option>
+            <option value="funcionario">Funcionário</option>
+        </select>
+
+        <button type="submit">Entrar</button>
+    </form>
+    {% if error %}
+    <p style="color: red;">{{ error }}</p>
+    {% endif %}
+</body>
+</html>
